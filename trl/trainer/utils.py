@@ -262,6 +262,9 @@ class ConstantLengthDataset(IterableDataset):
                 input_ids = all_token_ids[i : i + self.seq_length]
                 if len(input_ids) == self.seq_length:
                     examples.append(input_ids)
+                else:
+                    input_ids = input_ids + [self.tokenizer.pad_token_id] * (self.seq_length - len(input_ids))
+                    examples.append(input_ids)
             if self.shuffle:
                 random.shuffle(examples)
             for example in examples:
